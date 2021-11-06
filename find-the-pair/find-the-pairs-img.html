@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .container {
+            height: 640px;
+            width: 660px;
+
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .sq-cover{
+            height: 160px;
+            width: 160px;
+            background-color: rgb(168, 168, 237);
+            border-style: solid;
+            border-radius: 5pt;
+            border-width: 2px;
+        }
+
+        .sq-cover.selected{
+            background-color: rgb(255, 255, 255);
+        }
+
+        .sq-cover.selected img{
+            background-color: rgb(255, 255, 255);
+            display: block;
+        }
+        
+        img {
+            height: 160px;
+            width: 160px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+
+    <template id="sq-template">
+        <div class="sq-cover">
+            <img src="/cats/1.png" alt="">
+        </div>
+    </template>
+
+
+    <script>
+        'use strict'
+        let numberOfSquares = 16
+        let totalPairs = numberOfSquares / 2
+        let arr = []
+        for (let i = 0; i < numberOfSquares; i++) {
+            arr.push(i)
+        }
+
+        arr = shuffle(arr)
+
+        const template = document.getElementById('sq-template');
+        const sqContainer = document.getElementsByClassName('container')[0];
+
+        arr.forEach(function(sqNumber) {
+            const newNode = template.content.cloneNode(true);
+            let sqCover = newNode.querySelector('.sq-cover');
+            let img = newNode.querySelector('img');
+            let indexNumber = Math.floor(sqNumber/2)
+            img.src = `/cats/${indexNumber}.png`
+            sqCover.setAttribute("memVal", Math.floor(sqNumber/2))
+            sqCover.addEventListener('click', () => {play(img, sqCover)});
+            sqContainer.appendChild(newNode);
+        })
+
+        let currentSelectedSquare
+        let currentSelectedSquareCover
+        let shouldAvoidClick = false
+        let numberOfSteps = 0
+        let pairsFound = 0
+
+        function play(img, sqCover) {
+            if (shouldAvoidClick) {
+                return
+            }
+
+            console.log(sqCover.getAttribute("memVal"))
+            
+            sqCover.classList.add("selected")
+            if (currentSelectedSquare === undefined) {
+                currentSelectedSquare = sqCover
+                return
+            }
+
+            numberOfSteps++
+            let previousValue = currentSelectedSquare.getAttribute("memVal")
+            let currentValue = sqCover.getAttribute("memVal")
+            console.log("previous is ", previousValue)
+            if (previousValue !== currentValue) {
+                shouldAvoidClick = true
+                setTimeout(function(sqCover1, sqCover2) {
+                    sqCover1.classList.remove("selected")
+                    sqCover2.classList.remove("selected")
+                    shouldAvoidClick = false
+                }, 1000, currentSelectedSquare, sqCover)
+            } else {
+                pairsFound++
+                if (pairsFound == totalPairs) {
+                    setTimeout(()=>{ alert(`You've found all the pairs. Wow so talented. Only within ${numberOfSteps} steps`) }, 100)
+                }
+            }
+            
+            currentSelectedSquare = undefined
+            currentSelectedSquareCover = undefined
+        }
+
+        function shuffle(array) {
+            let currentIndex = array.length,  randomIndex;
+
+            // While there remain elements to shuffle...
+            while (currentIndex != 0) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+
+                // And swap it with the current element.
+                [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+    </script>
+</body>
+</html>
