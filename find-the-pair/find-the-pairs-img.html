@@ -45,7 +45,7 @@
 
     <template id="sq-template">
         <div class="sq-cover">
-            <img src="/cats/1.png" alt="">
+            <img src="" alt="">
         </div>
     </template>
 
@@ -69,7 +69,7 @@
             let sqCover = newNode.querySelector('.sq-cover');
             let img = newNode.querySelector('img');
             let indexNumber = Math.floor(sqNumber/2)
-            img.src = `/cats/${indexNumber}.png`
+            img.src = `/find-the-pair/cats/${indexNumber}.png`
             sqCover.setAttribute("memVal", Math.floor(sqNumber/2))
             sqCover.addEventListener('click', () => {play(img, sqCover)});
             sqContainer.appendChild(newNode);
