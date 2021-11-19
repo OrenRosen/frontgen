@@ -82,6 +82,10 @@
         let pairsFound = 0
 
         function play(img, sqCover) {
+            if (sqCover == currentSelectedSquare) {
+                return
+            }
+            
             if (shouldAvoidClick) {
                 return
             }
