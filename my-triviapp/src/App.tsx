@@ -20,6 +20,7 @@ class App extends React.Component<{}, IState> {
           answers: ["2008", "2007", "2000", "100 BC"],
           correctAnswerIndex: 1,
           selectedAnswer: -1,
+          wasAnswered: false,
         },
         {
           question:
@@ -27,6 +28,7 @@ class App extends React.Component<{}, IState> {
           answers: ["ctrl c", "copy+9", "ctrl alt delete", "shift 6"],
           correctAnswerIndex: 0,
           selectedAnswer: -1,
+          wasAnswered: false,
         },
         {
           question: "Is Java a type of OS?",
@@ -38,6 +40,7 @@ class App extends React.Component<{}, IState> {
           ],
           correctAnswerIndex: 2,
           selectedAnswer: -1,
+          wasAnswered: false,
         },
       ],
       currentQuestionIndex: 0,
@@ -56,21 +59,33 @@ class App extends React.Component<{}, IState> {
   };
 
   handleClickAnswer = () => {
-    console.log("-------- handleClickAnswer");
-    this.setState((prevState) => ({
-      currentQuestionIndex: prevState.currentQuestionIndex + 1,
-    }));
+    setTimeout(() => {
+      this.setState((prevState: IState) => {
+        return {
+          currentQuestionIndex: prevState.currentQuestionIndex + 1,
+        };
+      });
+    }, 900);
+
+    this.setState((prevState: IState) => {
+      const questions = prevState.questions.slice();
+      const question = questions[prevState.currentQuestionIndex];
+      question.wasAnswered = true;
+      return {
+        questions: questions,
+      };
+    });
   };
 
   render() {
-    const currentQuestion =
-      this.state.questions[this.state.currentQuestionIndex];
+    console.log("----- renders App");
 
     return (
-      <div>
+      <div className="App">
         <Header />
         <QuestionaireList
-          question={currentQuestion}
+          questions={this.state.questions}
+          currentQuestionIndex={this.state.currentQuestionIndex}
           onSelect={this.handleSelectAnswer}
           onClickAnswer={this.handleClickAnswer}
         />

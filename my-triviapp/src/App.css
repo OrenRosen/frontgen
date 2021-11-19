@@ -1,38 +1,55 @@
 .App {
   text-align: center;
+  max-width: 500px;
+  margin: auto;
+  padding: 5px;
+  border: 2px solid;
+  background-color: rgba(212, 242, 240, 0.831);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Header {
+  padding: 5px;
+  font-family: sans-serif;
+  border-bottom: 2px solid rgba(0, 255, 255, 0.577);
+  /* background-color: rgba(195, 244, 240, 0.831); */
+  /* border: 1px solid; */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.QuestionaireList {
+  text-align: left;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.AnswerItem {
+  border-top: 2px solid grey;
+  padding: 5px;
 }
 
-.App-link {
-  color: #61dafb;
+.AnswerItem:last-child {
+  border-bottom: 2px solid grey;
+  margin-bottom: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input {
+  margin: 5px;
+}
+
+.correct {
+  background-color: rgba(138, 218, 138, 0.927);
+}
+
+label.correctCount {
+  padding-left: 5px;
+  border-left: 2px solid;
+}
+
+label.quesionsCount {
+  padding-right: 5px;
+}
+
+.incorrect {
+  background-color: rgba(235, 125, 125, 0.701);
+}
+
+header {
+  margin: 40px;
 }
