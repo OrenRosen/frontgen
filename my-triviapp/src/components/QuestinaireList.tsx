@@ -6,15 +6,24 @@ import QuestionaHeader from "./questionaireHeader";
 interface IProps {
   questions: Array<Question>;
   currentQuestionIndex: number;
-  onSelect: (answer: string) => void;
+  onSelect: Function;
 }
 const QuestionaireList: React.FC<IProps> = ({
   questions,
   currentQuestionIndex,
   onSelect,
 }) => {
-  console.log("QuestionaireList rendered");
   const question = questions[currentQuestionIndex];
+
+  const handleClickAnswer = (answer: string) => {
+    console.log(answer);
+    const alreadyChecked = question.selectedAnswer === answer;
+    if (alreadyChecked) {
+      return;
+    }
+
+    onSelect(answer);
+  };
 
   let allAnswers;
   if (question.answersOrder) {
@@ -42,7 +51,7 @@ const QuestionaireList: React.FC<IProps> = ({
         key={answer}
         answer={answer}
         checked={checked}
-        onSelectAnswer={onSelect}
+        onSelectAnswer={handleClickAnswer}
       />
     );
   });

@@ -19,7 +19,7 @@ const AnswerItem: React.FC<IProps> = ({
 
   const className = "AnswerItem " + cname;
   return (
-    <div className={className} onClick={handleChange}>
+    <div className={className}>
       <input checked={checked} type="radio" onChange={handleChange} />
       <span>{answer}</span>
     </div>

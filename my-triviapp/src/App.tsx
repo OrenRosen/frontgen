@@ -5,6 +5,7 @@ import QuestionaireList from "./components/QuestinaireList";
 import Question from "./models/questionaire";
 import Results from "./components/results";
 import Fetcher from "./fetcher";
+import Spinner from "./components/Spinner";
 
 interface IState {
   initialQuestion: Array<Question>;
@@ -48,7 +49,7 @@ class App extends React.Component<{}, IState> {
           currentQuestionIndex: prevState.currentQuestionIndex + 1,
         };
       });
-    }, 500);
+    }, 600);
 
     this.setState((prevState: IState) => {
       const questions = prevState.questions.slice();
@@ -78,16 +79,28 @@ class App extends React.Component<{}, IState> {
   };
 
   render() {
+    if (this.state.questions.length === 0) {
+      return (
+        <div className="App">
+          <Spinner />
+        </div>
+      );
+    }
+
     const didFinsihed =
       this.state.currentQuestionIndex === this.state.questions.length;
-    return didFinsihed ? (
-      <div className="App">
-        <Results
-          questions={this.state.questions}
-          onTryAgainClick={this.handleTryAgain}
-        />
-      </div>
-    ) : (
+    if (didFinsihed) {
+      return (
+        <div className="App">
+          <Results
+            questions={this.state.questions}
+            onTryAgainClick={this.handleTryAgain}
+          />
+        </div>
+      );
+    }
+
+    return (
       <div className="App">
         <Header />
         <QuestionaireList
