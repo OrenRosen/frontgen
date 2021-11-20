@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   width: 500px;
-  height: 480px;
+  height: 450px;
   margin: auto;
   padding: 5px;
   border: 2px solid;
@@ -74,6 +74,7 @@ input {
 
 .correct {
   background-color: rgba(138, 218, 138, 0.927);
+  transition: 0.3s;
 }
 
 label.correctCount {
@@ -87,6 +88,7 @@ label.quesionsCount {
 
 .incorrect {
   background-color: rgba(235, 125, 125, 0.701);
+  transition: 0.3s;
 }
 
 header {

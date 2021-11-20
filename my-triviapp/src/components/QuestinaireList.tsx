@@ -7,14 +7,11 @@ interface IProps {
   questions: Array<Question>;
   currentQuestionIndex: number;
   onSelect: Function;
-  onClickAnswer: () => void;
 }
-
 const QuestionaireList: React.FC<IProps> = ({
   questions,
   currentQuestionIndex,
   onSelect,
-  onClickAnswer,
 }) => {
   console.log("QuestionaireList rendered");
   const question = questions[currentQuestionIndex];
@@ -59,9 +56,6 @@ const QuestionaireList: React.FC<IProps> = ({
         currentQuestionIndex={currentQuestionIndex}
       />
       <div>{rows}</div>
-      <button disabled={question.selectedAnswer < 0} onClick={onClickAnswer}>
-        Answer
-      </button>
     </div>
   );
 };

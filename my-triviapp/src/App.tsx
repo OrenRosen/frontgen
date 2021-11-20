@@ -29,7 +29,6 @@ class App extends React.Component<{}, IState> {
   }
 
   handleData = (questions: Array<Question>) => {
-    console.log("********************* ", questions);
     this.setState({
       initialQuestion: questions,
       questions: questions,
@@ -48,7 +47,7 @@ class App extends React.Component<{}, IState> {
     });
   };
 
-  handleClickAnswer = () => {
+  handleClickAnswer = (index: number) => {
     setTimeout(() => {
       this.setState((prevState: IState) => {
         return {
@@ -61,6 +60,7 @@ class App extends React.Component<{}, IState> {
       const questions = prevState.questions.slice();
       const question = questions[prevState.currentQuestionIndex];
       question.wasAnswered = true;
+      question.selectedAnswer = index;
       return {
         questions: questions,
       };
@@ -100,23 +100,10 @@ class App extends React.Component<{}, IState> {
         <QuestionaireList
           questions={this.state.questions}
           currentQuestionIndex={this.state.currentQuestionIndex}
-          onSelect={this.handleSelectAnswer}
-          onClickAnswer={this.handleClickAnswer}
+          onSelect={this.handleClickAnswer}
         />
       </div>
     );
-
-    // return (
-    // <div className="App">
-    //   <Header />
-    //   <QuestionaireList
-    //     questions={this.state.questions}
-    //     currentQuestionIndex={this.state.currentQuestionIndex}
-    //     onSelect={this.handleSelectAnswer}
-    //     onClickAnswer={this.handleClickAnswer}
-    //   />
-    // </div>
-    // );
   }
 }
 
