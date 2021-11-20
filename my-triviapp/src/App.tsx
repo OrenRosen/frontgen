@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import QuestionaireList from "./components/QuestinaireList";
 import Question from "./models/questionaire";
 import Results from "./components/results";
+import Fetcher from "./fetcher";
 
 interface IState {
   initialQuestion: Array<Question>;
@@ -14,42 +15,27 @@ interface IState {
 class App extends React.Component<{}, IState> {
   constructor(props: {}) {
     super(props);
-    const questions: Array<Question> = [
-      {
-        question: "What year was the very first model of the iPhone released?",
-        answers: ["2008", "2007", "2000", "100 BC"],
-        correctAnswerIndex: 1,
-        selectedAnswer: -1,
-        wasAnswered: false,
-      },
-      // {
-      //   question:
-      //     "What’s the shortcut for the “copy” function on most computers?",
-      //   answers: ["ctrl c", "copy+9", "ctrl alt delete", "shift 6"],
-      //   correctAnswerIndex: 0,
-      //   selectedAnswer: -1,
-      //   wasAnswered: false,
-      // },
-      // {
-      //   question: "Is Java a type of OS?",
-      //   answers: [
-      //     "Sure",
-      //     "Yes, if OS stands for Oh Shit",
-      //     "Nope",
-      //     "Jave What?",
-      //   ],
-      //   correctAnswerIndex: 2,
-      //   selectedAnswer: -1,
-      //   wasAnswered: false,
-      // },
-    ];
 
     this.state = {
-      initialQuestion: questions.slice(),
-      questions: questions,
+      initialQuestion: [],
+      questions: [],
       currentQuestionIndex: 0,
     };
   }
+
+  componentDidMount() {
+    const fetcher = new Fetcher();
+    fetcher.fetchFromFile(this.handleData);
+  }
+
+  handleData = (questions: Array<Question>) => {
+    console.log("********************* ", questions);
+    this.setState({
+      initialQuestion: questions,
+      questions: questions,
+      currentQuestionIndex: 0,
+    });
+  };
 
   handleSelectAnswer = (index: number) => {
     this.setState((prevState: IState) => {
@@ -97,10 +83,10 @@ class App extends React.Component<{}, IState> {
   };
 
   render() {
-    console.log("----- renders App");
+    console.log("----- renders App", this.state.questions);
 
     const didFinsihed =
-      this.state.currentQuestionIndex == this.state.questions.length;
+      this.state.currentQuestionIndex === this.state.questions.length;
     return didFinsihed ? (
       <div className="App">
         <Results
