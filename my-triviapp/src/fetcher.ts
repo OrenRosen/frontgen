@@ -6,9 +6,9 @@ class Fetcher {
     const questions: Array<Question> = jsonquestions.map((jsonQ) => {
       return {
         question: jsonQ.question,
-        answers: jsonQ.answers,
-        correctAnswerIndex: jsonQ.correctAnswerIndex,
-        selectedAnswer: -1,
+        correctAnswer: jsonQ.correctAnswer,
+        incorrectAnswers: jsonQ.incorrectAnswers,
+        selectedAnswer: "",
         wasAnswered: false,
       };
     });

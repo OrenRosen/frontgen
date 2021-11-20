@@ -9,7 +9,7 @@ interface IProps {
 const Results: React.FC<IProps> = ({ questions, onTryAgainClick }) => {
   const numberOfQuestions = questions.length;
   const numberOfCorrects = questions.reduce((total, question) => {
-    return question.correctAnswerIndex === question.selectedAnswer
+    return question.correctAnswer === question.selectedAnswer
       ? total + 1
       : total;
   }, 0);

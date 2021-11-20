@@ -14,7 +14,7 @@ const QuestionaireHeader: React.FC<IProps> = ({
   const numberOfQuestions = questions.length;
   const numberOfCorrects = questions.reduce((total, question) => {
     return question.wasAnswered &&
-      question.correctAnswerIndex === question.selectedAnswer
+      question.correctAnswer === question.selectedAnswer
       ? total + 1
       : total;
   }, 0);

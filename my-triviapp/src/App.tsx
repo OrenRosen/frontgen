@@ -36,31 +36,25 @@ class App extends React.Component<{}, IState> {
     });
   };
 
-  handleSelectAnswer = (index: number) => {
-    this.setState((prevState: IState) => {
-      const questions = prevState.questions.slice();
-      const question = questions[prevState.currentQuestionIndex];
-      question.selectedAnswer = index;
-      return {
-        questions: questions,
-      };
-    });
-  };
+  handleClickAnswer = (answer: string) => {
+    const question = this.state.questions[this.state.currentQuestionIndex];
+    if (question.wasAnswered) {
+      return;
+    }
 
-  handleClickAnswer = (index: number) => {
     setTimeout(() => {
       this.setState((prevState: IState) => {
         return {
           currentQuestionIndex: prevState.currentQuestionIndex + 1,
         };
       });
-    }, 900);
+    }, 500);
 
     this.setState((prevState: IState) => {
       const questions = prevState.questions.slice();
       const question = questions[prevState.currentQuestionIndex];
       question.wasAnswered = true;
-      question.selectedAnswer = index;
+      question.selectedAnswer = answer;
       return {
         questions: questions,
       };
@@ -70,8 +64,9 @@ class App extends React.Component<{}, IState> {
   handleTryAgain = () => {
     this.setState((prevState: IState) => {
       let questions = prevState.questions.map((question) => {
-        question.selectedAnswer = -1;
+        question.selectedAnswer = "";
         question.wasAnswered = false;
+        question.answersOrder = undefined;
         return question;
       });
 
@@ -83,8 +78,6 @@ class App extends React.Component<{}, IState> {
   };
 
   render() {
-    console.log("----- renders App", this.state.questions);
-
     const didFinsihed =
       this.state.currentQuestionIndex === this.state.questions.length;
     return didFinsihed ? (

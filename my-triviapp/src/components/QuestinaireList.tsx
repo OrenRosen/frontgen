@@ -6,7 +6,7 @@ import QuestionaHeader from "./questionaireHeader";
 interface IProps {
   questions: Array<Question>;
   currentQuestionIndex: number;
-  onSelect: Function;
+  onSelect: (answer: string) => void;
 }
 const QuestionaireList: React.FC<IProps> = ({
   questions,
@@ -15,23 +15,20 @@ const QuestionaireList: React.FC<IProps> = ({
 }) => {
   console.log("QuestionaireList rendered");
   const question = questions[currentQuestionIndex];
-  function makeChangeHandler(index: number) {
-    return (e: SyntheticEvent) => {
-      console.log("onChange");
-      const alreadyChecked = question.selectedAnswer === index;
-      if (alreadyChecked) {
-        e.preventDefault();
-        return;
-      }
 
-      onSelect(index);
-    };
+  let allAnswers;
+  if (question.answersOrder) {
+    allAnswers = question.answersOrder;
+  } else {
+    allAnswers = question.incorrectAnswers.concat(question.correctAnswer);
+    allAnswers = shuffle(allAnswers);
+    question.answersOrder = allAnswers;
   }
 
-  let rows = question.answers.map((answer, index) => {
-    const checked = question.selectedAnswer === index;
+  let rows = allAnswers.map((answer) => {
+    const checked = question.selectedAnswer === answer;
     let cname = "idle";
-    const isCorrect = question.correctAnswerIndex === index;
+    const isCorrect = answer === question.correctAnswer;
     if (question.wasAnswered && isCorrect) {
       cname = "correct";
     }
@@ -45,7 +42,7 @@ const QuestionaireList: React.FC<IProps> = ({
         key={answer}
         answer={answer}
         checked={checked}
-        onChange={makeChangeHandler(index)}
+        onSelectAnswer={onSelect}
       />
     );
   });
@@ -59,5 +56,24 @@ const QuestionaireList: React.FC<IProps> = ({
     </div>
   );
 };
+
+function shuffle<T>(array: Array<T>): Array<T> {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex !== 0) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+}
 
 export default QuestionaireList;

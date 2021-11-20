@@ -1,9 +1,10 @@
 interface Question {
   question: string;
-  answers: Array<string>;
-  correctAnswerIndex: number;
-  selectedAnswer: number;
+  correctAnswer: string;
+  incorrectAnswers: Array<string>;
+  selectedAnswer: string;
   wasAnswered: boolean;
+  answersOrder?: Array<string>;
 }
 
 export default Question;

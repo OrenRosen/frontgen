@@ -4,14 +4,23 @@ interface IProps {
   cname: string;
   answer: string;
   checked: boolean;
-  onChange: (e: SyntheticEvent) => void;
+  onSelectAnswer: (answer: string) => void;
 }
 
-const AnswerItem: React.FC<IProps> = ({ answer, checked, onChange, cname }) => {
+const AnswerItem: React.FC<IProps> = ({
+  answer,
+  checked,
+  onSelectAnswer,
+  cname,
+}) => {
+  const handleChange = () => {
+    onSelectAnswer(answer);
+  };
+
   const className = "AnswerItem " + cname;
   return (
-    <div className={className}>
-      <input checked={checked} type="radio" onChange={onChange} />
+    <div className={className} onClick={handleChange}>
+      <input checked={checked} type="radio" onChange={handleChange} />
       <span>{answer}</span>
     </div>
   );

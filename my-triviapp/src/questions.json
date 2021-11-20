@@ -1,32 +1,32 @@
 [
     {
         "question": "What year was the very first model of the iPhone released?",
-        "answers": ["2008", "2007", "2000", "100 BC"],
-        "correctAnswerIndex": 1
+        "correctAnswer": "2007",
+        "incorrectAnswers": ["2008", "2000", "100 BC"]
     },
     {
         "question": "What’s the shortcut for the “copy” function on most computers?",
-        "answers": ["ctrl c", "copy+9", "ctrl alt delete", "shift 6"],
-        "correctAnswerIndex": 0
+        "correctAnswer": "ctrl c",
+        "incorrectAnswers": ["copy+9", "ctrl alt delete", "shift 6"]
     },
     {
         "question": "Is Java a type of OS?",
-        "answers": ["Sure", "Yes, if OS stands for Oh Sh$t", "Nope", "Jave What?"],
-        "correctAnswerIndex": 2
+        "correctAnswer": "Nope",
+        "incorrectAnswers": ["Sure", "Yes, if OS stands for Oh Sh$t", "Jave What?"]
     },
     {
         "question": "Who is often called the father of the computer?",
-        "answers": ["Dave", "Charlie Chaplin", "Charly Cabbage", "Charles Babbage"],
-        "correctAnswerIndex": 3
+        "correctAnswer": "Charles Babbage",
+        "incorrectAnswers": ["Dave", "Charlie Chaplin", "Charly Cabbage"]
     },
     {
         "question": "What does “HTTP” stand for?",
-        "answers": ["HyperText Transfer Protocol", "Hi To The Pointer", "H T T P", "High Tolerance Transfer Protocol"],
-        "correctAnswerIndex": 0
+        "correctAnswer": "HyperText Transfer Protocol",
+        "incorrectAnswers": ["Hi To The Pointer", "H T T P", "High Tolerance Transfer Protocol"]
     },
     {
         "question": "Google Chrome, Safari, Firefox, and Explorer are different types of what?",
-        "answers": ["Browsers", "OS", "Words in Latin", "Publishers"],
-        "correctAnswerIndex": 0
+        "correctAnswer": "Browsers",
+        "incorrectAnswers": ["OS", "Words in Latin", "Publishers"]
     }
 ]

@@ -44,7 +44,12 @@
 }
 
 .question {
-  padding: 50px;
+  /* padding: 50px; */
+  height: 150px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
   background: linear-gradient(
     90deg,
     rgb(2, 104, 108) 0%,
