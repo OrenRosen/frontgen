@@ -13,11 +13,6 @@ const QuestionaireHeader: React.FC<IProps> = ({
   const question = questions[currentQuestionIndex];
   const numberOfQuestions = questions.length;
   const numberOfCorrects = questions.reduce((total, question) => {
-    console.log(
-      question.wasAnswered,
-      question.correctAnswerIndex,
-      question.selectedAnswer
-    );
     return question.wasAnswered &&
       question.correctAnswerIndex === question.selectedAnswer
       ? total + 1
@@ -27,7 +22,7 @@ const QuestionaireHeader: React.FC<IProps> = ({
     <div>
       <label className="quesionsCount">{`Quesiton number ${currentQuestionIndex} from ${numberOfQuestions}`}</label>
       <label className="correctCount">{`Answered Correctly: ${numberOfCorrects}/${currentQuestionIndex}`}</label>
-      <h3>{question.question}</h3>
+      <h3 className="question">{question.question}</h3>
     </div>
   );
 };

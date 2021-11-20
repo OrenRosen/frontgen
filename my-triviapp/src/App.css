@@ -1,18 +1,57 @@
 .App {
   text-align: center;
-  max-width: 500px;
+  width: 500px;
+  height: 480px;
   margin: auto;
   padding: 5px;
   border: 2px solid;
-  background-color: rgba(212, 242, 240, 0.831);
 }
 
 .Header {
   padding: 5px;
   font-family: sans-serif;
-  border-bottom: 2px solid rgba(0, 255, 255, 0.577);
+  /* border-bottom: 2px solid rgba(0, 255, 255, 0.577); */
   /* background-color: rgba(195, 244, 240, 0.831); */
   /* border: 1px solid; */
+}
+
+.Results {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: inherit;
+  background: linear-gradient(
+    90deg,
+    rgb(2, 104, 108) 0%,
+    rgba(23, 181, 154, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  font-size: 30px;
+}
+
+/* .Results div {
+  display: flex;
+  align-self: center;
+} */
+
+.Results button {
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  bottom: 0;
+  margin: 5px;
+}
+
+.question {
+  padding: 50px;
+  background: linear-gradient(
+    90deg,
+    rgb(2, 104, 108) 0%,
+    rgba(23, 181, 154, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  color: rgb(26, 25, 24);
 }
 
 .QuestionaireList {
