@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import QuestionaireList from "./components/QuestinaireList";
@@ -7,110 +7,74 @@ import Results from "./components/results";
 import Fetcher from "./fetcher";
 import Spinner from "./components/Spinner";
 
-interface IState {
-  initialQuestion: Array<Question>;
-  questions: Array<Question>;
-  currentQuestionIndex: number;
-}
+function App(props = {}) {
+  const [questions, setQuestions] = useState<Array<Question>>([]);
+  const [questionIndex, setQuestionIndex] = useState(0);
 
-class App extends React.Component<{}, IState> {
-  constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      initialQuestion: [],
-      questions: [],
-      currentQuestionIndex: 0,
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     const fetcher = new Fetcher();
-    fetcher.fetchFromFile(this.handleData);
-  }
+    fetcher.fetchFromFile(handleData);
+  }, []);
 
-  handleData = (questions: Array<Question>) => {
-    this.setState({
-      initialQuestion: questions,
-      questions: questions,
-      currentQuestionIndex: 0,
-    });
-  };
-
-  handleClickAnswer = (answer: string) => {
-    const question = this.state.questions[this.state.currentQuestionIndex];
+  function handleClickAnswer(answer: string) {
+    const question = questions[questionIndex];
     if (question.wasAnswered) {
       return;
     }
 
     setTimeout(() => {
-      this.setState((prevState: IState) => {
-        return {
-          currentQuestionIndex: prevState.currentQuestionIndex + 1,
-        };
-      });
+      setQuestionIndex(questionIndex + 1);
     }, 600);
 
-    this.setState((prevState: IState) => {
-      const questions = prevState.questions.slice();
-      const question = questions[prevState.currentQuestionIndex];
-      question.wasAnswered = true;
-      question.selectedAnswer = answer;
-      return {
-        questions: questions,
-      };
+    question.wasAnswered = true;
+    question.selectedAnswer = answer;
+    setQuestions(questions.slice());
+  }
+
+  function handleData(questions: Array<Question>) {
+    setQuestions(questions);
+    setQuestionIndex(0);
+  }
+
+  function handleTryAgain() {
+    let clearQuestions = questions.map((question) => {
+      question.selectedAnswer = "";
+      question.wasAnswered = false;
+      question.answersOrder = undefined;
+      return question;
     });
-  };
 
-  handleTryAgain = () => {
-    this.setState((prevState: IState) => {
-      let questions = prevState.questions.map((question) => {
-        question.selectedAnswer = "";
-        question.wasAnswered = false;
-        question.answersOrder = undefined;
-        return question;
-      });
+    setQuestions(clearQuestions);
+    setQuestionIndex(0);
+  }
 
-      return {
-        questions: questions,
-        currentQuestionIndex: 0,
-      };
-    });
-  };
-
-  render() {
-    if (this.state.questions.length === 0) {
-      return (
-        <div className="App">
-          <Spinner />
-        </div>
-      );
-    }
-
-    const didFinsihed =
-      this.state.currentQuestionIndex === this.state.questions.length;
-    if (didFinsihed) {
-      return (
-        <div className="App">
-          <Results
-            questions={this.state.questions}
-            onTryAgainClick={this.handleTryAgain}
-          />
-        </div>
-      );
-    }
-
+  if (questions.length === 0) {
     return (
       <div className="App">
-        <Header />
-        <QuestionaireList
-          questions={this.state.questions}
-          currentQuestionIndex={this.state.currentQuestionIndex}
-          onSelect={this.handleClickAnswer}
-        />
+        <Spinner />
       </div>
     );
   }
+
+  const didFinsihed = questionIndex === questions.length;
+  if (didFinsihed) {
+    return (
+      <div className="App">
+        <Results questions={questions} onTryAgainClick={handleTryAgain} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="App">
+      <Header />
+      <QuestionaireList
+        questions={questions}
+        currentQuestionIndex={questionIndex}
+        onSelect={handleClickAnswer}
+      />
+    </div>
+  );
 }
 
 export default App;
