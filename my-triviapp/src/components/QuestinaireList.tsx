@@ -1,39 +1,27 @@
-import React, { SyntheticEvent } from "react";
-import Question from "../models/questionaire";
+import React, { useEffect, useRef } from "react";
 import AnswerItem from "./answerItem";
-import QuestionaHeader from "./questionaireHeader";
+import { globals } from "../App";
+import { useParams } from "react-router-dom";
 
-interface IProps {
-  questions: Array<Question>;
-  currentQuestionIndex: number;
-  onSelect: Function;
-}
-const QuestionaireList: React.FC<IProps> = ({
-  questions,
-  currentQuestionIndex,
-  onSelect,
-}) => {
-  const question = questions[currentQuestionIndex];
+export function QuestionaireList2() {
+  console.log("____________________ Rendered QuestionaireList2");
+  const questions = globals.questions;
+  const params = useParams();
 
-  const handleClickAnswer = (answer: string) => {
-    console.log(answer);
-    const alreadyChecked = question.selectedAnswer === answer;
-    if (alreadyChecked) {
-      return;
-    }
+  const lalaRef = useRef("");
 
-    onSelect(answer);
-  };
-
-  let allAnswers;
-  if (question.answersOrder) {
-    allAnswers = question.answersOrder;
-  } else {
-    allAnswers = question.incorrectAnswers.concat(question.correctAnswer);
-    allAnswers = shuffle(allAnswers);
-    question.answersOrder = allAnswers;
+  let questionId = params.questionId;
+  if (questionId === undefined) {
+    questionId = "0";
   }
 
+  useEffect(() => {
+    console.log("using effect");
+  });
+
+  const currentQuestionIndex = parseInt(questionId);
+  const question = questions[currentQuestionIndex];
+  const allAnswers = question.allAnswers;
   let rows = allAnswers.map((answer) => {
     const checked = question.selectedAnswer === answer;
     let cname = "idle";
@@ -51,20 +39,13 @@ const QuestionaireList: React.FC<IProps> = ({
         key={answer}
         answer={answer}
         checked={checked}
-        onSelectAnswer={handleClickAnswer}
+        onSelectAnswer={globals.handleClickAnswer}
       />
     );
   });
-  return (
-    <div className="QuestionaireList">
-      <QuestionaHeader
-        questions={questions}
-        currentQuestionIndex={currentQuestionIndex}
-      />
-      <div>{rows}</div>
-    </div>
-  );
-};
+
+  return <div className="QuestionaireList">{<div>{rows}</div>}</div>;
+}
 
 function shuffle<T>(array: Array<T>): Array<T> {
   let currentIndex = array.length,
@@ -85,4 +66,4 @@ function shuffle<T>(array: Array<T>): Array<T> {
   return array;
 }
 
-export default QuestionaireList;
+export default QuestionaireList2;

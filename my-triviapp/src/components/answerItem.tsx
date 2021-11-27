@@ -17,6 +17,7 @@ const AnswerItem: React.FC<IProps> = ({
     onSelectAnswer(answer);
   };
 
+  console.log("-999---", cname);
   const className = "AnswerItem " + cname;
   return (
     <div className={className} onClick={handleChange}>

@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
-import QuestionaireList from "./components/QuestinaireList";
 import Question from "./models/questionaire";
 import Results from "./components/results";
 import Fetcher from "./fetcher";
 import Spinner from "./components/Spinner";
+import { Outlet } from "react-router";
+import { useNavigate } from "react-router-dom";
+
+interface IGlobals {
+  questions: Array<Question>;
+  handleClickAnswer: (answer: string) => void;
+}
+
+export const globals: IGlobals = {
+  questions: [],
+  handleClickAnswer: (answer: string) => {},
+};
 
 function App(props = {}) {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState<Array<Question>>([]);
   const [questionIndex, setQuestionIndex] = useState(0);
+  console.log("-------------->>>", questionIndex);
+  globals.questions = questions;
+  globals.handleClickAnswer = handleClickAnswer;
 
   useEffect(() => {
     const fetcher = new Fetcher();
@@ -24,6 +39,7 @@ function App(props = {}) {
 
     setTimeout(() => {
       setQuestionIndex(questionIndex + 1);
+      navigate(`${questionIndex + 1}`);
     }, 600);
 
     question.wasAnswered = true;
@@ -40,7 +56,8 @@ function App(props = {}) {
     let clearQuestions = questions.map((question) => {
       question.selectedAnswer = "";
       question.wasAnswered = false;
-      question.answersOrder = undefined;
+      question.allAnswers = [];
+      navigate("");
       return question;
     });
 
@@ -68,11 +85,7 @@ function App(props = {}) {
   return (
     <div className="App">
       <Header />
-      <QuestionaireList
-        questions={questions}
-        currentQuestionIndex={questionIndex}
-        onSelect={handleClickAnswer}
-      />
+      <Outlet />
     </div>
   );
 }
