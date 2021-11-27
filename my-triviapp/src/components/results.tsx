@@ -1,12 +1,11 @@
-import React from "react";
-import Question from "../models/questionaire";
+import { useNavigate } from "react-router";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { resetAnswers } from "../store/questionSlice";
 
-interface IProps {
-  questions: Array<Question>;
-  onTryAgainClick: () => void;
-}
-
-const Results: React.FC<IProps> = ({ questions, onTryAgainClick }) => {
+function Results() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const questions = useAppSelector((state) => state.questions.questions);
   const numberOfQuestions = questions.length;
   const numberOfCorrects = questions.reduce((total, question) => {
     return question.correctAnswer === question.selectedAnswer
@@ -14,12 +13,17 @@ const Results: React.FC<IProps> = ({ questions, onTryAgainClick }) => {
       : total;
   }, 0);
 
+  function handleAgainClick() {
+    dispatch(resetAnswers());
+    navigate("/");
+  }
+
   return (
     <div className="Results">
       <div>{`Answered Correctly ${numberOfCorrects}/${numberOfQuestions}`}</div>
-      <button onClick={onTryAgainClick}>Start Over</button>
+      <button onClick={handleAgainClick}>Start Over</button>
     </div>
   );
-};
+}
 
 export default Results;

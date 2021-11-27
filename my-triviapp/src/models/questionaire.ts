@@ -4,7 +4,6 @@ interface Question {
   correctAnswer: string;
   incorrectAnswers: Array<string>;
   selectedAnswer: string;
-  wasAnswered: boolean;
   allAnswers: Array<string>;
 }
 

@@ -5,17 +5,27 @@ import "./index.css";
 import "./App.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { QuestionaireList2 } from "./components/QuestinaireList";
+import Questionaire from "./components/Questionaire";
+import store from "./store";
+import { Provider } from "react-redux";
+import About from "./components/About";
+import Results from "./components/results";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />}>
-        <Route index element={<QuestionaireList2 />} />
-        <Route path="/:questionId" element={<QuestionaireList2 />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="about" element={<About />} />
+          <Route path="/" element={<App />}>
+            <Route index element={<Questionaire />} />
+            <Route path="/:questionId" element={<Questionaire />} />
+            <Route path="/results" element={<Results />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>,
   document.getElementById("root")
 );
 

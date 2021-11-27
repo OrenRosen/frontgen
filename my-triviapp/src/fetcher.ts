@@ -20,7 +20,6 @@ class Fetcher {
         correctAnswer: jsonQ.correctAnswer,
         incorrectAnswers: jsonQ.incorrectAnswers,
         selectedAnswer: "",
-        wasAnswered: false,
         allAnswers: jsonQ.incorrectAnswers.concat(jsonQ.correctAnswer),
       };
     });
@@ -43,7 +42,6 @@ class Fetcher {
               correctAnswer: jsonQ.correct_answer,
               incorrectAnswers: jsonQ.incorrect_answers,
               selectedAnswer: "",
-              wasAnswered: false,
               allAnswers: jsonQ.incorrect_answers.concat(jsonQ.correct_answer),
             };
           }
